@@ -1,0 +1,215 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Dodaj izborni predmet</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!--===============================================================================================-->
+    <link rel="icon" type="image/png" href="images/icons/imilogo.png"/>
+
+    <link rel="stylesheet" type="text/css" href="css/main2.css">
+    <style>
+        .dropbtn {
+            padding: 16px;
+            font-size: 16px;
+            border: none;
+            opacity: 100%;
+        }
+
+        .dropdown {
+            position: relative;
+            display: inline-block;
+        }
+
+        .dropdown-content {
+            display: none;
+            position: absolute;
+            margin-left: 50px;
+            margin-top: -45px;
+            background-color: #f1f1f1;
+            min-width: 160px;
+            box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+            z-index: 1;
+        }
+
+        .dropdown-content a {
+            color: black;
+            padding: 5px 7px;
+            text-decoration: none;
+            display: block;
+            border-bottom:1px solid black;
+        }
+
+        #nazad{
+            float: right;
+            margin-top: 25px;
+            font-size: 18px;
+            color: white;
+            text-decoration: none;
+            border: 1px dashed white;
+            border-radius: 7px;
+            padding: 3px;
+            transition: all 300ms;
+        }
+        #nazad:hover
+        {
+            font-size: 20px;
+        }
+
+        .dropdown:hover .dropdown-content {display: block;}
+
+        .dropdown-content {
+        max-height:300px;
+        min-width:200px;
+         overflow:scroll;
+        }
+
+        .naziv
+        {
+            color:#7579ff;
+            padding-left:3px;
+            font-weight:bold;
+        }
+    </style>
+    <!--===============================================================================================-->
+</head>
+<body onload="dodajIme(), koJeUser()">
+
+<div class="limiter">
+    <div class="container-login100" style="background-image: url('images/bg-01.jpg');">
+        <div class="wrap-login100">
+            <div class="dropdown">
+                <img class="dropbtn" src="images/icons/menu1.png">
+                <div class="dropdown-content">
+                    <span class="naziv">PRIKAZ</span>
+                    <hr>
+                    <a href="/listajStudente.html" class="s-">Izlistaj studente</a>
+                    <a href="/listajProfesore.html">Izlistaj profesore</a>
+                    <a href="/listajPredmete.html">Izlistaj predmete</a>
+                    <a href="/listaPredmetaKojeStudentiSlusaju.html">Predmeti koje studenti slušaju</a>
+                    <a href="/listajPrijavljeneIspite.html">Izlistaj prijavljene ispite</a>
+                    <a href="/listajPolozeneIspite.html">Položeni predmeti</a>
+                    <hr>
+                    <form class="a">
+                        <span class="naziv">UNOS</span>
+                        <hr>
+                        <a href="/unesiProfesora">Unesi profesora</a>
+                        <a href="/unesiStudenta">Unesi studenta</a>
+                        <a href="/unesiPredmet">Unesi predmet</a>
+                        <hr>
+                    </form>
+                    <span class="naziv">ANGAŽOVANjA</span>
+                    <hr>
+                    <a href="/listajAngazovanja.html">Ispiši angažovanja</a>
+                    <a href="/povezivanjeAngazovanja" class="a">Poveži angažovanja</a>
+                    <hr>
+                    <span class="naziv">ADMINISTRATORSKE  OPCIJE</span>
+                    <hr>
+                    <a href="/poveziIzbornePredmete" class="a">Dodeli izborne predmete</a>
+                    <a href="/prijaviIspit" class="p-">Prijavi ispit</a>
+                    <a href="/oceniIspit" class="s-">Oceni ispit</a>
+                    <a href="/priznajIspit" class="s-">Priznaj položeni ispit</a>
+                    <br>
+                    <hr>
+                    <a href="/" class="naziv">Odjavi me</a>
+                </div>
+            </div>
+            <a onclick="nazad()" id="nazad">Nazad</a>
+            <fieldset style="text-align:right;width:400px;" >
+                <legend>Poveži predmete sa studentima</legend>
+                <form name="input"
+                      method="get">
+                    Broj indeksa: <input type="text" name="brIndeksa"><br>
+                    Godina upisa: <input type="text" name="godUpisa"><br>
+                    Šifra predmeta: <input type="text" name="idPredmeta"><br>
+                    <input type="submit" value="Dodaj" id="dugme">
+                </form>
+            </fieldset>
+        </div>
+    </div>
+</div>
+
+
+<div id="dropDownSelect1"></div>
+
+<!--===============================================================================================-->
+<script src="vendor/jquery/jquery-3.2.1.min.js"></script>
+<!--===============================================================================================-->
+<script src="vendor/animsition/js/animsition.min.js"></script>
+<!--===============================================================================================-->
+<script src="vendor/bootstrap/js/popper.js"></script>
+<script src="vendor/bootstrap/js/bootstrap.min.js"></script>
+<!--===============================================================================================-->
+<script src="vendor/select2/select2.min.js"></script>
+<!--===============================================================================================-->
+<script src="vendor/daterangepicker/moment.min.js"></script>
+<script src="vendor/daterangepicker/daterangepicker.js"></script>
+<!--===============================================================================================-->
+<script src="vendor/countdowntime/countdowntime.js"></script>
+<!--===============================================================================================-->
+<script src="js/main.js"></script>
+<script>
+    function nazad()
+    {
+        window.history.back();
+    }
+    function dodajIme()
+    {
+        var txt = "";
+        var url = window.location;
+        txt += url;
+        var pozicija1 = txt.indexOf("=");
+        var pozicija2 = txt.indexOf(".");
+
+        var ime = txt.slice(pozicija1+1, pozicija2);
+
+        //TABELA SLOVA
+        //https://www.utf8-chartable.de/unicode-utf8-table.pl?start=256
+        ime = ime.replace("%C4%87", "ć");
+        ime = ime.replace("%C4%8D", "č");
+        ime = ime.replace("%C5%BE", "ž");
+        ime = ime.replace("%C5%A1", "š");
+        ime = ime.replace("%C4%91", "đ");
+
+       // document.getElementById("ime").innerHTML = ime;
+
+         var pom = txt.slice(pozicija1+1);
+        var x = document.getElementsByTagName("a") ;
+        for(var i=0; i<x.length-1;i++)
+         {   x[i].href += "?username="+pom;}
+    }
+    function koJeUser()
+    {
+        var txt = "";
+        var url = window.location;
+        txt += url;
+        var poz1 = txt.indexOf("=");
+        var poz2 = txt.indexOf("&");
+        var user = txt.slice(poz1+1, poz2);
+        if(user == "s" || user == "p")
+        {
+            if(user == "s")
+            {
+                var nevidljivi = document.getElementsByClassName("s-");
+            }
+            else if(user == "p")
+            {
+                  var nevidljivi = document.getElementsByClassName("p-");
+            }
+
+             for(var i=0;i < nevidljivi.length ; i++)
+             {
+                nevidljivi[i].style.display = "none";
+             }
+
+            var nevidljivi1 = document.getElementsByClassName("a");
+             for(var i=0;i < nevidljivi1.length ; i++)
+             {
+                nevidljivi1[i].style.display = "none";
+             }
+         }
+    }
+</script>
+</body>
+</html>

@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Služba</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!--===============================================================================================-->
+    <link rel="icon" type="image/png" href="images/icons/imilogo.png"/>
+    <!--===============================================================================================--
+    <link rel="stylesheet" type="text/css" href="vendor/bootstrap/css/bootstrap.min.css">
+    !--===============================================================================================--
+    <link rel="stylesheet" type="text/css" href="fonts/font-awesome-4.7.0/css/font-awesome.min.css">
+    !--===============================================================================================--
+    <link rel="stylesheet" type="text/css" href="fonts/iconic/css/material-design-iconic-font.min.css">
+    !--===============================================================================================--
+    <link rel="stylesheet" type="text/css" href="vendor/animate/animate.css">
+    !--===============================================================================================--
+    <link rel="stylesheet" type="text/css" href="vendor/css-hamburgers/hamburgers.min.css">
+    !--===============================================================================================--
+    <link rel="stylesheet" type="text/css" href="vendor/animsition/css/animsition.min.css">
+    !--===============================================================================================--
+    <link rel="stylesheet" type="text/css" href="vendor/select2/select2.min.css">
+    !--===============================================================================================-
+    <link rel="stylesheet" type="text/css" href="vendor/daterangepicker/daterangepicker.css">
+    !--===============================================================================================
+    <link rel="stylesheet" type="text/css" href="css/util.css">-->
+    <link rel="stylesheet" type="text/css" href="css/main1.css">
+    <!--===============================================================================================-->
+    <style>
+
+        #nazad{
+            float: right;
+            margin-top: 25px;
+            font-size: 18px;
+            color: white;
+            text-decoration: none;
+            border: 1px dashed white;
+            border-radius: 7px;
+            padding: 3px;
+            transition: all 300ms;
+        }
+        #nazad:hover
+        {
+            font-size: 20px;
+        }
+
+    </style>
+</head>
+<body onload="dodajIme()">
+
+<div class="limiter">
+    <div class="container-login100" style="background-image: url('images/bg-01.jpg');">
+
+        <div class="wrap-login100">
+            <div id="dobrodosao">Dobrodošao/la <span id="ime"> </span>!</div>
+            <form class="login100-form validate-form">
+					<span class="login100-form-logo">
+						<i class="zmdi zmdi-landscap"></i>
+						<img src="images/icons/imilogo.png" style="width:50px;height: 50px;">
+					</span>
+
+                <div id="linkovi">
+                    <a href="/listajProfesore.html">IZLISTAJ PROFESORE</a>
+                    <br>
+                    <br>
+                    <a href="/listajPredmete.html">IZLISTAJ PREDMETE</a>
+                    <br>
+                    <br>
+                    <a href="/listajAngazovanja.html">ISPIŠI ANGAŽOVANJA</a>
+                    <br>
+                    <br>
+                    <a href="/listaPredmetaKojeStudentiSlusaju.html">IZLISTAJ PREDMETE KOJE STUDENT SLUSA</a><!--KOJE STUDENT SLUSA-->
+                    <br>
+                    <br>
+                    <a href="/prijaviIspit">PRIJAVI ISPIT</a><!--dodato-->
+                    <br>
+                    <br>
+                    <a href="/listajPrijavljeneIspite.html">IZLISTAJ PRIJAVLJENE ISPITE</a><!--ZA TRENUTNOG-->
+                    <br>
+                    <br>
+                    <a href="/listajPolozeneIspite.html">IZLISTAJ POLOŽENE ISPITE</a><!--dodato-->
+
+                </div>
+                <a id="nazad" onclick="nazad()">Odjavi me</a>
+            </form>
+
+
+        </div>
+    </div>
+</div>
+<script>
+     function nazad()
+    {
+        window.location.href = "/?username="+""+"&pass="+""+"";
+    }
+    function dodajIme()
+    {
+        var txt = "";
+        var url = window.location;
+        txt += url;
+        var pozicija1 = txt.indexOf("=");
+        var pozicija2 = txt.indexOf(".");
+
+        var ime = txt.slice(pozicija1+1, pozicija2);
+
+        ime = ime.replace("Microsoft", "ć");
+        ime = ime.replace("Microsoft", "č");
+        ime = ime.replace("Microsoft", "ž");
+        ime = ime.replace("%C5%A1", "š");
+        ime = ime.replace("Microsoft", "đ");
+
+        document.getElementById("ime").innerHTML = ime;
+
+        var pom = txt.slice(pozicija1+1);
+        var x = document.getElementsByTagName("a") ;
+        for(var i=0; i<x.length-1;i++)
+         {   x[i].href += "?us=s&username="+pom;}
+
+    }
+</script>
+
+<div id="dropDownSelect1"></div>
+
+<!--===============================================================================================-->
+<script src="vendor/jquery/jquery-3.2.1.min.js"></script>
+<!--===============================================================================================-->
+<script src="vendor/animsition/js/animsition.min.js"></script>
+<!--===============================================================================================-->
+<script src="vendor/bootstrap/js/popper.js"></script>
+<script src="vendor/bootstrap/js/bootstrap.min.js"></script>
+<!--===============================================================================================-->
+<script src="vendor/select2/select2.min.js"></script>
+<!--===============================================================================================-->
+<script src="vendor/daterangepicker/moment.min.js"></script>
+<script src="vendor/daterangepicker/daterangepicker.js"></script>
+<!--===============================================================================================-->
+<script src="vendor/countdowntime/countdowntime.js"></script>
+<!--===============================================================================================-->
+<script src="js/main.js"></script>
+
+</body>
+</html>
