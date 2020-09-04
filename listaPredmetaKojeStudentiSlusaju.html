@@ -1,0 +1,408 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Lista Angazovanja</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!--===============================================================================================-->
+    <link rel="icon" type="image/png" href="images/icons/imilogo.png"/>
+    <link rel="stylesheet" type="text/css" href="css/listajStudente.css">
+    <style>
+        .dropbtn {
+            position: relative;
+            padding: 16px;
+            font-size: 16px;
+            border: none;
+            opacity: 100%;
+        }
+
+        .dropdown {
+            position: relative;
+            display: inline-block;
+        }
+
+        .dropdown-content {
+            display: none;
+            position: absolute;
+            margin-left: 50px;
+            margin-top: -45px;
+            background-color: #f1f1f1;
+            min-width: 160px;
+            box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+            z-index: 1;
+        }
+
+        .dropdown-content a {
+            color: black;
+            padding: 5px 7px;
+            text-decoration: none;
+            display: block;
+            border-bottom:1px solid black;
+        }
+
+        #nazad{
+            float: right;
+            margin-top: 25px;
+            font-size: 18px;
+            color: white;
+            text-decoration: none;
+            border: 1px dashed white;
+            border-radius: 7px;
+            padding: 3px;
+            transition: all 300ms;
+        }
+        #nazad:hover
+        {
+            font-size: 20px;
+        }
+
+        .dropdown:hover .dropdown-content {display: block;}
+
+        .dropdown-content {
+        max-height:300px;
+        min-width:200px;
+         overflow:scroll;
+        }
+
+        .naziv
+        {
+            color:#7579ff;
+            padding-left:3px;
+            font-weight:bold;
+        }
+    </style>
+</head>
+<body onload=" ucitaj() , koJeUser()" >
+
+<div class="limiter">
+    <div class="container-login100" style="background-image: url('images/bg-01.jpg');">
+        <div class="wrap-login100">
+            <div class="dropdown">
+                <img class="dropbtn" src="images/icons/menu1.png">
+                <div class="dropdown-content">
+                    <span class="naziv">PRIKAZ</span>
+                    <hr>
+                    <a href="/listajStudente.html" class="s-">Izlistaj studente</a>
+                    <a href="/listajProfesore.html">Izlistaj profesore</a>
+                    <a href="/listajPredmete.html">Izlistaj predmete</a>
+                    <a href="/listaPredmetaKojeStudentiSlusaju.html">Predmeti koje studenti slušaju</a>
+                    <a href="/listajPrijavljeneIspite.html">Izlistaj prijavljene ispite</a>
+                    <a href="/listajPolozeneIspite.html">Položeni predmeti</a>
+                    <hr>
+                    <form class="a">
+                        <span class="naziv">UNOS</span>
+                        <hr>
+                        <a href="/unesiProfesora">Unesi profesora</a>
+                        <a href="/unesiStudenta">Unesi studenta</a>
+                        <a href="/unesiPredmet">Unesi predmet</a>
+                        <hr>
+                    </form>
+                    <span class="naziv">ANGAŽOVANjA</span>
+                    <hr>
+                    <a href="/listajAngazovanja.html">Ispiši angažovanja</a>
+                    <a href="/povezivanjeAngazovanja" class="a">Poveži angažovanja</a>
+                    <hr>
+                    <span class="naziv">ADMINISTRATORSKE  OPCIJE</span>
+                    <hr>
+                    <a href="/poveziIzbornePredmete" class="a">Dodeli izborne predmete</a>
+                    <a href="/prijaviIspit" class="p-">Prijavi ispit</a>
+                    <a href="/oceniIspit" class="s-">Oceni ispit</a>
+                    <a href="/priznajIspit" class="s-">Priznaj položeni ispit</a>
+                    <br>
+                    <hr>
+                    <a href="/" class="naziv">Odjavi me</a>
+                </div>
+            </div>
+            <a onclick="nazad()" id="nazad">Nazad</a>
+            <p id="ispis">LISTA PREDMETA KOJE STUDENT SLUŠA</p>
+            <form class="login100-form validate-form" >
+
+                <input type="text" id="search0" placeholder="TRAŽI PO INDEKSU" onkeyup="filter0()">
+                <input style="float:right" type="text" id="search2" placeholder="TRAŽI PREDMET" onkeyup="filter2()"><br>
+                <input  type="text" id="search1" placeholder="TRAŽI IME" onkeyup="filter1()">
+                <input style="float:right" type="text" id="search3" placeholder="TRAŽI PO ŠIFRI" onkeyup="filter3()">
+
+
+                <div id="Tab">
+                    <table id="tabela">
+                    </table>
+
+                </div>
+
+                <!--<div id="demo">
+                    <a href="indexx"> <input type="button" value="Nazad" id="dugme"></a>
+                </div>-->
+
+            </form>
+        </div>
+    </div>
+</div>
+
+
+<script>
+function nazad()
+    {
+        window.history.back();
+    }
+  /*  function ucitaj() //PREPRAVLJENO ISPOD JE ISPRAVNA F-JA
+	{
+	var korisnikPodaci = "";
+	var txt = "";
+        var url = window.location;
+        txt += url;
+        var poz = txt.indexOf("&");
+        var pozicija1 = txt.indexOf("=");
+        var pozicija2 = txt.indexOf(".");
+
+        var ime = txt.slice(pozicija1+1, pozicija2);
+
+        //TABELA SLOVA
+        //https://www.utf8-chartable.de/unicode-utf8-table.pl?start=256
+        ime = ime.replace("%C4%87", "ć");
+        ime = ime.replace("%C4%8D", "č");
+        ime = ime.replace("%C5%BE", "ž");
+        ime = ime.replace("%C5%A1", "š");
+        ime = ime.replace("%C4%91", "đ");
+
+        //document.getElementById("ime").innerHTML = ime;
+
+        //SLANJE KORISNIKOVIH PODATAKA OSTALIM STRANICAMA
+        var pom = txt.slice(pozicija1+1);
+        var x = document.getElementsByTagName("a") ;
+        for(var i=0; i<x.length-1;i++)
+         {   x[i].href += "?username="+pom;}
+
+        //SLANJE PODATAKA KONTROLERU
+        //?username=Luka.Maletković&pass=16   pozicija 1 = , pozicija 2 .
+
+        //Luka.Maletković&pass=16
+        var txt1 = txt.slice(pozicija1+1);
+
+        //Luka.Maletković
+        var pozicija3 = txt.indexOf("&");
+        var user = txt.slice(pozicija1+1, pozicija3);
+
+        //16
+        var pozicija4 = txt1.indexOf("=");
+        var pass = txt1.slice(pozicija4+1);
+
+
+        korisnikPodaci = user + "-" + pass;
+
+
+        //UPIS PODATAKA U TABELU
+       var xmlhttp = new XMLHttpRequest();
+        xmlhttp.onreadystatechange = function()
+        {
+            if (this.readyState == 4 && this.status == 200)
+            {
+               var myObj = JSON.parse(this.responseText);
+               var table = "<tr><td>*</td><td>INDEKS/UPISAN</td><td>IME</td><td>PREDMET</td><td>SIFRA PREDMETA</td><td>ESPB</td></tr>";
+               var i, br;
+               for(i=0;i< myObj.length;i++)
+               {
+                    br = parseInt(i)+1;
+                    table += "<tr><td>"+br+"</td><td>"+myObj[i].brIndeksa+"/"+myObj[i].godUpisa+" </td><td >"+myObj[i].imeStudenta+" "+myObj[i].prezimeStudenta+"</td><td >"+myObj[i].nazivPredmeta+"</td><td >"+myObj[i].idPredmeta+"</td><td >"+myObj[i].espb+"</td></tr>";
+               }
+               document.getElementById("tabela").innerHTML = table;
+            }
+        };
+
+        var url = "/predmeteKojeStudentiSlusaju?korisnik="+korisnikPodaci;
+        xmlhttp.open("GET", url , true);
+
+        xmlhttp.send();
+	}
+*/
+  function ucitaj()
+	{
+	 var txt = "";
+	 var url = window.location;
+	 txt += url;
+            //txt  =  ?us=s&username=Luka.Maletković&pass=16
+	 var poz1 = txt.indexOf("&");
+	 var us = txt.slice(poz1+1); //username=Luka.Maletković&pass=16
+	 var poz2 = us.indexOf("=");
+	 var poz3 = us.indexOf("&");
+	 var user = us.slice(poz2+1,poz3); //Luka.Maletković
+
+	 var us1 = us.slice(poz3+1); //pass=16
+	 var poz4 = us1.indexOf("=");
+	 var pass = us1.slice(poz4+1); //16
+
+        korisnikPodaci = user + "-" + pass;
+
+
+        //UPIS PODATAKA U TABELU
+       var xmlhttp = new XMLHttpRequest();
+        xmlhttp.onreadystatechange = function()
+        {
+            if (this.readyState == 4 && this.status == 200)
+            {
+               var myObj = JSON.parse(this.responseText);
+               var table = "<tr><td>*</td><td>INDEKS/UPISAN</td><td>IME</td><td>PREDMET</td><td>SIFRA PREDMETA</td><td>ESPB</td></tr>";
+               var i, br;
+               for(i=0;i< myObj.length;i++)
+               {
+                    br = parseInt(i)+1;
+                    table += "<tr><td>"+br+"</td><td>"+myObj[i].brIndeksa+"/"+myObj[i].godUpisa+" </td><td >"+myObj[i].imeStudenta+" "+myObj[i].prezimeStudenta+"</td><td >"+myObj[i].nazivPredmeta+"</td><td >"+myObj[i].idPredmeta+"</td><td >"+myObj[i].espb+"</td></tr>";
+               }
+               document.getElementById("tabela").innerHTML = table;
+            }
+        };
+
+        var url = "/predmeteKojeStudentiSlusaju?korisnik="+korisnikPodaci;
+        xmlhttp.open("GET", url , true);
+
+        xmlhttp.send();
+	}
+
+
+
+    //FILTERI PRETRAGE
+
+    function filter0()
+        {
+
+             var input, filter, table, tr, td, i, txtValue;
+             input = document.getElementById("search0");
+             filter = input.value.toUpperCase();
+             table = document.getElementById("tabela");
+             tr = table.getElementsByTagName("tr");
+
+              for (i = 1; i < tr.length; i++)
+              {
+                td = tr[i].getElementsByTagName("td")[1];
+                if (td)
+                {
+                    txtValue = td.textContent || td.innerText;
+                    if (txtValue.toUpperCase().indexOf(filter) > -1)
+                    {
+                        tr[i].style.display = "";
+                    }
+                    else
+                    {
+                         tr[i].style.display = "none";
+                    }
+                }
+              }
+         }
+
+        function filter1()
+        {
+
+             var input, filter, table, tr, td, i, txtValue;
+             input = document.getElementById("search1");
+             filter = input.value.toUpperCase();
+             table = document.getElementById("tabela");
+             tr = table.getElementsByTagName("tr");
+
+              for (i = 1; i < tr.length; i++)
+              {
+                td = tr[i].getElementsByTagName("td")[2];
+                if (td)
+                {
+                    txtValue = td.textContent || td.innerText;
+                    if (txtValue.toUpperCase().indexOf(filter) > -1)
+                    {
+                        tr[i].style.display = "";
+                    }
+                    else
+                    {
+                         tr[i].style.display = "none";
+                    }
+                }
+              }
+         }
+
+            function filter2()
+        {
+
+             var input, filter, table, tr, td, i, txtValue;
+             input = document.getElementById("search2");
+             filter = input.value.toUpperCase();
+             table = document.getElementById("tabela");
+             tr = table.getElementsByTagName("tr");
+
+              for (i = 1; i < tr.length; i++)
+              {
+                td = tr[i].getElementsByTagName("td")[3];
+                if (td)
+                {
+                    txtValue = td.textContent || td.innerText;
+                    if (txtValue.toUpperCase().indexOf(filter) > -1)
+                    {
+                        tr[i].style.display = "";
+                    }
+                    else
+                    {
+                         tr[i].style.display = "none";
+                    }
+                }
+              }
+         }
+
+         function filter3()
+        {
+
+             var input, filter, table, tr, td, i, txtValue;
+             input = document.getElementById("search3");
+             filter = input.value.toUpperCase();
+             table = document.getElementById("tabela");
+             tr = table.getElementsByTagName("tr");
+
+              for (i = 1; i < tr.length; i++)
+              {
+                td = tr[i].getElementsByTagName("td")[4];
+                if (td)
+                {
+                    txtValue = td.textContent || td.innerText;
+                    if (txtValue.toUpperCase().indexOf(filter) > -1)
+                    {
+                        tr[i].style.display = "";
+                    }
+                    else
+                    {
+                         tr[i].style.display = "none";
+                    }
+                }
+              }
+         }
+
+         function koJeUser()
+    {
+        var txt = "";
+        var url = window.location;
+        txt += url;
+        var poz1 = txt.indexOf("=");
+        var poz2 = txt.indexOf("&");
+        var user = txt.slice(poz1+1, poz2);
+        if(user == "s" || user == "p")
+        {
+            if(user == "s")
+            {
+                var nevidljivi = document.getElementsByClassName("s-");
+            }
+            else if(user == "p")
+            {
+                  var nevidljivi = document.getElementsByClassName("p-");
+            }
+
+             for(var i=0;i < nevidljivi.length ; i++)
+             {
+                nevidljivi[i].style.display = "none";
+             }
+
+            var nevidljivi1 = document.getElementsByClassName("a");
+             for(var i=0;i < nevidljivi1.length ; i++)
+             {
+                nevidljivi1[i].style.display = "none";
+             }
+         }
+    }
+
+</script>
+
+</body>
+</html>
+
